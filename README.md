@@ -4,6 +4,63 @@ This is the official code for our paper "TabDDPM: Modelling Tabular Data with Di
 <!-- ## Results
 You can view all the results and build your own tables with this [notebook](notebooks/Reports.ipynb). -->
 
+
+## Generate PCAP/Netflow Dataset 
+
+1. pre-process with dataset 
+
+create ./data/pcap and ./data/netflow; and create a `info.json` file.
+
+For example, `info.json` file should be: 
+
+```
+{
+    "task_type": "regression",
+    "name": "Pcap",
+    "id": "pcap-id",
+    "train_size": 9968,
+    "val_size": 1425,
+    "test_size": 2848,
+    "n_num_features": 14,
+    "n_cat_features": 1
+}
+```
+
+
+```
+{
+    "task_type": "regression",
+    "name": "Netflow",
+    "id": "netflow-id",
+    "train_size": 9968,
+    "val_size": 1425,
+    "test_size": 2848,
+    "n_num_features": 6,
+    "n_cat_features": 2
+}
+
+```
+
+```
+python preprocess-pcap.py
+```
+
+```
+python preprocess-netflow.py
+```
+
+2. Train and generate with default setup. 
+- If you want to utilize GPU, you need to change config.toml file
+
+```
+python scripts/pipeline.py --config exp/pcap/ddpm_mlp_best/config.toml --sample --train
+```
+
+```
+python scripts/pipeline.py --config exp/netflow/ddpm_mlp_best/config.toml --sample --train
+```
+
+
 ## Setup the environment
 1. Install [conda](https://docs.conda.io/en/latest/miniconda.html) (just to manage the env).
 2. Run the following commands
